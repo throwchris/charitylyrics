@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charity JukeBox Images</title>
+  <link rel="icon" href="jukebox.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=fire">
+  <script src="https://kit.fontawesome.com/d1a6249b79.js" crossorigin="anonymous"></script>
+
+  <style>
+    .w3-allerta {
+      font-family: "Allerta Stencil", Sans-serif;
+    }
+
+    .w3-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      z-index: 1000;
+    }
+
+    body {
+      margin-top: 60px;
+      padding-bottom: 60px;
+    }
+
+    #songImageModal {
+      display: none;
+      position: fixed;
+      top: 60px;
+      bottom: 60px;
+      left: 0;
+      right: 0;
+      z-index: 1001;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+
+    .modal-content {
+      max-width: 600px;
+      width: 90%;
+      margin: auto;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      background: white;
+    }
+
+    .modal-image {
+      width: 100%;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body class="w3-black">
+
+  <!-- Top Nav -->
+  <nav class="w3-padding w3-center w3-black w3-top">
+    <i class="fas fa-music w3-text-red font-effect-fire" style="font-size:32px"></i>
+    <span class="w3-button w3-xlarge w3-text-pink w3-hover-none">Charity JukeBox Lyrics</span>
+    <i class="fas fa-random w3-text-red font-effect-fire" style="font-size:32px"></i>
+  </nav>
+
+  <!-- Song Buttons -->
+  <div class="w3-container w3-padding-16 w3-center">
+    <div class="w3-row-padding w3-center" id="songButtons"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w3-padding w3-center w3-black w3-bottom">
+    <a href="/charity/index.html" class="w3-text-pink w3-large">Charity Definitions</a>
+  </footer>
+
+  <!-- Modal -->
+  <div id="songImageModal">
+    <div class="w3-card-4 modal-content w3-animate-opacity">
+      <header class="w3-container w3-teal w3-display-container">
+        <span onclick="closeSongImageModal()" 
+              class="w3-button w3-teal w3-display-topright w3-hover-red" 
+              title="Close Modal">&times;</span>
+        <h3 id="modalSongTitle" class="w3-center w3-padding">Song Title</h3>
+      </header>
+      
+      
+      <div class="w3-container" style="overflow:auto; max-height:calc(100vh - 180px);">
+        <img id="modalSongImage" src="" alt="" class="modal-image">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const songNames = [
+      "1. A Time For Peace Reggae",
+  "2. Boundless-hearts",
+  "3. Charity On The Phone. Boy's",
+  "4. Charity On The Phone. Girl's",
+  "5. Charity Shines",
+  "6. Charity-1",
+  "7. Charity-2",
+  "8. Charity's-embrace",
+  "9. Divine Love Not Left Alone",
+  "10. Embossed_In_Red",
+  "11. Endureth-The Oak In The Meadow_v.1",
+  "12. Envieth Not-Flight of Love",
+  "13. Extinguish The Fire",
+  "14. Finished In The Father & Jesus",
+  "15. Finished In The Holy Ghost & Rose",
+  "16. Have Oil, Dear Woman",
+  "17. HE_LIVES_IN_ME",
+  "18. Heart of Charity",
+  "19. RED_LETTER-1",
+  "20. I Am Yielded",
+  "21. Jesus' Prayer For Us",
+  "22. JOHN_17",
+  "23. Little-Church",
+  "24. love-in-action",
+  "25. Mana_o_-l_o",
+  "26. My-Brother",
+  "27. O-Fire-Within-Me-Burn",
+  "28. The-Big-Parade",
+  "29. The-Kindness-of-Charity",
+  "30. The-Mother",
+  "31. The-Oak-in-the-Meadow-4",
+  "32. TheWaa",
+  "33. This-Man-Went-Home-Justified-1",
+  "34. Trail-Boss-Bud",
+  "35. We-Bare-All-Things-Scottish-Jig",
+  "36. Abba, Father My Love Cries Out to You",
+  "37. All of Christ (ballad)",
+  "38. All of Christ (upbeat)",
+  "39. At Charity Theatre Tonite",
+  "40. Ballad of Bud Batton",
+  "41. BLOOD_ON_THE_STONES",
+  "42. Charity Attributes_Man",
+  "43. Charity Wins-Final",
+  "44. I_Believe",
+  "45. Pure Waters",
+  "46. Red, Blood Red",
+  "47. Rose's Teachings 8",
+  "48. Satisified",
+  "49. Similes Song_Lady",
+  "50. Stand Strong Together",
+  "51. Tapestry of Charity 2",
+  "52. The-sure-hope-of-his-promises",
+  "53. the-wal-crew-maybe",
+  "54. You're My Everything_MAN",
+  "55. You're My Everything_WOMAN",
+  "56. Rock of Ages",
+  "57. Fulfill, Fulfill",
+  "58. Stick Together",
+  "59. It's Worth Everything"
+      // Add more song names as needed
+    ];
+
+    const songImages = {
+      1: "A TIME FOR PEACE.jpg",
+  2: "BOUNDLESS HEARTS.jpg",
+  3: "song3.jpg",
+  4: "song1.jpg",
+  5: "CHARITY S.jpg",
+  6: "song3.jpg",
+  7: "song1.jpg",
+  8: "CHARITY'S EMBRACE.jpg",
+  9: "DIVINE LOVE.jpg",
+  10: "EMBOSSED IN RED.jpg",
+  11: "song2.jpg",
+  12: "FLIGHT.jpg",
+  13: "EXTINGUISH THE FIRE.jpg",
+  14: "song2.jpg",
+  15: "song3.jpg",
+  16: "song1.jpg",
+  17: "HE LIVES IN ME.jpg",
+  18: "HEART OF CHARITY.jpg",
+  19: "RED LETTER.jpg",
+  20: "I AM YIELDED.jpg",
+  21: "JESUS'PR.jpg",
+  22: "JOHN 17.jpg",
+  25: "MANA.jpg",
+  29: "THE KINDN.jpg",
+  32: "THE WA'A.jpg",
+  34: "TRAIL BOSS BUD.jpg",
+  36: "ABBA FATHER.jpg",
+  41: "BLOOD ON THE STONES.jpg",
+  43: "CHARITY WINS.jpg",
+  46: "RED BLOOD RED.jpg",
+  51: "TAPESTRY OF CHARITY.jpg",
+  52: "THE SURE HOPE OF HIS PROMISES.jpg",
+      // Add more index:image file mappings
+    };
+
+    // Create buttons dynamically
+    const buttonContainer = document.getElementById("songButtons");
+
+    songNames.forEach((name, i) => {
+      const index = i + 1;
+      const button = document.createElement("button");
+      button.className = "w3-button w3-round w3-purple w3-block w3-margin-bottom";
+      button.textContent = name;
+      button.onclick = () => showSongImageModal(index);
+
+      const col = document.createElement("div");
+      col.className = "w3-col s12 m4 l3";
+      col.appendChild(button);
+      buttonContainer.appendChild(col);
+    });
+
+    function showSongImageModal(index) {
+      const modal = document.getElementById("songImageModal");
+      const img = document.getElementById("modalSongImage");
+      const title = document.getElementById("modalSongTitle");
+
+      if (songImages[index]) {
+        img.src = songImages[index];
+        img.alt = songNames[index - 1];
+        title.textContent = songNames[index - 1];
+        modal.style.display = "block";
+      }
+    }
+
+    function closeSongImageModal() {
+      const modal = document.getElementById("songImageModal");
+      modal.style.display = "none";
+    }
+  </script>
+</body>
+</html>
